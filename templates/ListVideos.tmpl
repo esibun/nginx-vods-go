@@ -1,0 +1,40 @@
+{{define "base"}}
+<html>
+	<head>
+		<title>{{.name}}'s Past Recordings</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" type="text/css" href="/css/style.css">
+	</head>
+	<body>
+		<span id="container">
+			<table id="containertable">
+				<tr>
+					<td id="borderleft"></td>
+					<td id="content">
+						<h1><img id="avatar" src="images/ava.png"> {{.name}}'s Past Recordings</h1>
+						<hr>
+						<p>live status: {{.livestatus}}</p>
+						{{ range $id, $video := .videos }}
+						<div class="video">
+							<div class="thumbnailbg">
+								<a href="/video/{{$video.Filename}}"><img src="thumbnails/{{$video.Filename}}.thumb.png"></a>
+							</div>
+							<div class="videoinfo">
+								<div class="videotitle">
+									<a href="/video/{{$video.Filename}}">{{$video.Name}}</a>
+								</div>
+								<div class="videoduration">{{formatDuration $video.Duration}}</div>
+								<div class="videodate">{{formatTime $video.Time}}</div>
+								<div class="videolink"><a href="/videos/{{$video.Filename}}.mp4">Direct Link</a></div>
+							</div>
+						</div>
+						{{ end }}
+					</td>
+					<td id="borderright"></td>
+				</tr>
+			</table>
+		</span>
+	</body>
+</html>
+{{end}}
