@@ -1,5 +1,5 @@
 # nginx-vods-go
-This is a rewrite of the nginx-vods repository into Go.
+This is a rewrite of the nginx-vods repository into Go.  You may find an example of this script in use at [rec.esibun.net](http://rec.esibun.net/)
 
 Configuration
 ---
