@@ -23,14 +23,14 @@ type Video struct {
 }
 
 func initDb() *gorp.DbMap {
-	db, err := sql.Open("mysql", "username:password@/vods")
+	db, err := sql.Open("mysql", mysql_username+":"+mysql_password+"@/"+mysql_database)
 	if err != nil {
 		panic(err)
 	}
 
 	dbmap := &gorp.DbMap{Db: db, Dialect: gorp.MySQLDialect{"InnoDB", "UTF8"}}
 
-	dbmap.AddTableWithName(Video{}, "videos")
+	dbmap.AddTableWithName(Video{}, "videos").SetKeys(false, "filename")
 
 	err = dbmap.CreateTablesIfNotExists()
 	if err != nil {
@@ -95,7 +95,7 @@ func FormatTime(t int64) string {
 }
 
 func GetVideoList(c *gin.Context) {
-	obj := gin.H{"name": "esi", "videos": GetVideos(), "livestatus": GetLiveStatus()}
+	obj := gin.H{"name": nickname, "videos": GetVideos(), "livestatus": GetLiveStatus()}
 	funcMap := template.FuncMap{
 		"formatTime":     FormatTime,
 		"formatDuration": FormatDuration,
@@ -111,7 +111,7 @@ func GetVideoList(c *gin.Context) {
 }
 
 func ShowVideo(c *gin.Context) {
-	obj := gin.H{"name": "esi", "id": c.Params.ByName("id"), "title": GetVideoTitle(c.Params.ByName("id"))}
+	obj := gin.H{"name": nickname, "id": c.Params.ByName("id"), "title": GetVideoTitle(c.Params.ByName("id"))}
 	t := template.New("ShowVideos")
 	p, err := t.ParseFiles("templates/ShowVideo.tmpl")
 	if err != nil {
@@ -135,5 +135,6 @@ func main() {
 
 	r.GET("/", GetVideoList)
 	r.GET("/video/:id", ShowVideo)
+	r.GET("/update", UpdateStatus)
 	r.Run(":3000")
 }
