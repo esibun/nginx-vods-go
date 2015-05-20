@@ -6,13 +6,13 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/MichaelTJones/walk"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
@@ -183,7 +183,7 @@ func UpdateStatus(c *gin.Context) {
 
 	videos = *GetVideos()
 
-	walk.Walk("./videos", func(path string, _ os.FileInfo, _ error) error {
+	filepath.Walk("./videos", func(path string, _ os.FileInfo, _ error) error {
 		if path == "./videos" {
 			return nil
 		}
