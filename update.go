@@ -73,6 +73,22 @@ func GetTitle() string {
 		if err != nil {
 			panic(err)
 		}
+		r, err := http.Get("https://api.twitch.tv/kraken/channels/" + twitch_username)
+		if err != nil {
+			panic(err)
+		}
+		defer r.Body.Close()
+		b, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			panic(err)
+		}
+		var j Status
+		json.Unmarshal(b, &j)
+		_, err = dbmap.Exec(`insert into api_cache (cachekey, value, expiry) values ('media_status', ?, from_unixtime(?))`, j.Status, fmt.Sprintf("%d", time.Now().Unix()+60))
+		if err != nil {
+			panic(err)
+		}
+		return j.Status
 	} else {
 		err := dbmap.SelectOne(&title, `select value from api_cache where cachekey = 'media_status'`)
 		if err != nil {
@@ -80,22 +96,6 @@ func GetTitle() string {
 		}
 		return title
 	}
-	r, err := http.Get("https://api.twitch.tv/kraken/channels/channelname")
-	if err != nil {
-		panic(err)
-	}
-	defer r.Body.Close()
-	b, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		panic(err)
-	}
-	var j Status
-	json.Unmarshal(b, &j)
-	_, err = dbmap.Exec(`insert into api_cache (cachekey, value, expiry) values ('media_status', ?, from_unixtime(?))`, j.Status, fmt.Sprintf("%d", time.Now().Unix()+60))
-	if err != nil {
-		panic(err)
-	}
-	return j.Status
 }
 
 func GetDuration(video string) int64 {
@@ -155,6 +155,10 @@ func ParseTime(path string) int64 {
 	return timestamp.Unix()
 }
 
+func GenerateThumbnail(path string) error {
+	return exec.Command("ffmpeg", "-i", "./videos/"+path+".mp4", "-vf", "thumbnail,scale=320:180", "-frames:v", "1", "./thumbnails/"+path+".thumb.png").Run()
+}
+
 func UpdateStatus(c *gin.Context) {
 	var status bool
 	var response bytes.Buffer
@@ -195,17 +199,24 @@ func UpdateStatus(c *gin.Context) {
 		if err != nil {
 			duration := GetDuration(path)
 			if duration > 0 {
-				response.Write([]byte("new vid: " + path + "\n"))
+				var thumbnail string
+				err = GenerateThumbnail(path)
+				if err != nil {
+					thumbnail = "no"
+				} else {
+					thumbnail = "yes"
+				}
 				err = InsertVideo(Video{
 					Filename:  path,
 					Time:      ParseTime(path),
 					Name:      GetTitle(),
 					Duration:  duration,
-					Thumbnail: "yes",
+					Thumbnail: thumbnail,
 				})
 				if err != nil {
 					panic(err)
 				}
+				response.Write([]byte("new vid: " + path + "\n"))
 			}
 		} else {
 			duration := GetDuration(path)
