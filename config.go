@@ -8,3 +8,7 @@ const (
 	twitch_username string = ""
 	nickname        string = ""
 )
+
+var (
+	ignore_array []string = []string{}
+)

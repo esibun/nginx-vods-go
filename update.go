@@ -159,6 +159,15 @@ func GenerateThumbnail(path string) error {
 	return exec.Command("ffmpeg", "-i", "./videos/"+path+".mp4", "-vf", "thumbnail,scale=320:180", "-frames:v", "1", "./thumbnails/"+path+".thumb.png").Run()
 }
 
+func IsIn(haystack string, needles []string) bool {
+	for _, value := range needles {
+		if strings.Contains(haystack, value) {
+			return true
+		}
+	}
+	return false
+}
+
 func UpdateStatus(c *gin.Context) {
 	var status bool
 	var response bytes.Buffer
@@ -192,6 +201,9 @@ func UpdateStatus(c *gin.Context) {
 
 	filepath.Walk("./videos", func(path string, _ os.FileInfo, _ error) error {
 		if path == "./videos" {
+			return nil
+		}
+		if IsIn(strings.Split(path, "-")[0], ignore_array) {
 			return nil
 		}
 
