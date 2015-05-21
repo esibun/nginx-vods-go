@@ -184,6 +184,9 @@ func UpdateStatus(c *gin.Context) {
 	if err != nil {
 		panic(err)
 	}
+	if call == "publish" {
+		return //don't block stream starts, this is bad!
+	}
 
 	videos = *GetVideos()
 
