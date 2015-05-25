@@ -84,7 +84,7 @@ func GetTitle() string {
 		}
 		var j Status
 		json.Unmarshal(b, &j)
-		_, err = dbmap.Exec(`insert into api_cache (cachekey, value, expiry) values ('media_status', ?, from_unixtime(?))`, j.Status, fmt.Sprintf("%d", time.Now().Unix()+60))
+		_, err = dbmap.Exec(`insert into api_cache (cachekey, value, expiry) values ('media_status', ?, from_unixtime(?)) on duplicate key update value = ?, expiry = from_unixtime(?)`, j.Status, fmt.Sprintf("%d", time.Now().Unix()+60), j.Status, fmt.Sprintf("%d", time.Now().Unix()+60))
 		if err != nil {
 			panic(err)
 		}
