@@ -134,7 +134,7 @@ func GetVideoInfo(array []Video, name string) (Video, error) {
 			return value, nil
 		}
 	}
-	return array[0], errors.New("Unable to find video.")
+	return Video{"", 0, "", 0, ""}, errors.New("Unable to find video.")
 }
 
 func InsertVideo(v Video) error {
