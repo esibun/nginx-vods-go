@@ -168,6 +168,23 @@ func IsIn(haystack string, needles []string) bool {
 	return false
 }
 
+func SecondMostRecent(array []Video) Video {
+	var mostRecent Video
+	var secondMostRecent Video
+	mostRecent = Video{"", 0, "", 0, ""}
+	secondMostRecent = Video{"", 0, "", 0, ""}
+	for _, value := range array {
+		if value.Time > mostRecent.Time {
+			secondMostRecent = mostRecent
+			mostRecent = value
+		}
+		if value.Time < mostRecent.Time && value.Time > secondMostRecent.Time {
+			secondMostRecent = value
+		}
+	}
+	return secondMostRecent
+}
+
 func UpdateStatus(c *gin.Context) {
 	var status bool
 	var response bytes.Buffer
@@ -198,6 +215,7 @@ func UpdateStatus(c *gin.Context) {
 	}
 
 	videos = *GetVideos()
+	secondMostRecent := SecondMostRecent(videos)
 
 	filepath.Walk("./videos", func(path string, _ os.FileInfo, _ error) error {
 		if path == "./videos" {
@@ -229,11 +247,15 @@ func UpdateStatus(c *gin.Context) {
 					Thumbnail: thumbnail,
 				})
 				if err != nil {
+					fmt.Printf("%s", videos)
 					panic(err)
 				}
 				response.Write([]byte("new vid: " + path + "\n"))
 			}
 		} else {
+			if secondMostRecent.Time > info.Time { //don't process videos older than second most recent video
+				return nil
+			}
 			duration := GetDuration(path)
 
 			if duration != info.Duration {
