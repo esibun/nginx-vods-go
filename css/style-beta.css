@@ -1,3 +1,95 @@
+@media screen and (max-width: 429px) {
+	#header {
+		height: 146px;
+	}
+	#inner-header {
+		height: 145px;
+	}
+	#headerbar {
+		width: 100%;
+		height: 140px;
+		text-align: center;
+	}
+	.headerseparator {
+		display: none;
+	}
+	.headerbuttonleft {
+		display: inline-block;
+	}
+	.headerbutton {
+		display: block;
+		border-right: 0;
+	}
+	.thumbnailbg {
+		width: 80%;
+	}
+	.video {
+		width: 90%;
+	}
+	.videoinfo {
+		width: 90%;
+	}
+}
+@media screen and (min-width: 430px) and (max-width: 749px) {
+	#header {
+		height: 41px;
+	}
+	#inner-header {
+		height: 40px;
+	}
+	#headerbar {
+		width: 430px;
+		height: 35px;
+	}
+	.headerseparator {
+		display: inline-block;
+	}
+	.headerbutton, .headerbuttonleft {
+		display: inline-block;
+	}
+	.headerbutton {
+		border-right: 1px solid #222;
+	}
+	.thumbnailbg {
+		width: 320px;
+	}
+	.video {
+		width: 350px;
+	}
+	.videoinfo {
+		width: 350px;
+	}
+}
+@media screen and (min-width: 750px) {
+	#header {
+		height: 41px;
+	}
+	#inner-header {
+		height: 40px;
+	}
+	#headerbar {
+		width: 430px;
+		height: 35px;
+	}
+	.headerseparator {
+		display: inline-block;
+	}
+	.headerbutton, .headerbuttonleft {
+		display: inline-block;
+	}
+	.headerbutton {
+		border-right: 1px solid #222;
+	}
+	.thumbnailbg {
+		width: 320px;
+	}
+	.video {
+		width: 700px;
+	}
+	.videoinfo {
+		width: 350px;
+	}
+}
 * {
 	margin: 0;
 	padding: 0;
@@ -8,19 +100,15 @@ body {
 	background: #333;
 }
 #header {
-	height: 41px;
 	padding-top: 5px;
 	border-bottom: 1px solid #444;
 }
 #inner-header {
-	height: 40px;
 	border-bottom: 1px solid #222;
 }
 #headerbar {
 	margin-left: auto;
 	margin-right: auto;
-	height: 35px;
-	width: 430px;
 	font-size: 0px;
 }
 .headertext {
@@ -28,7 +116,6 @@ body {
 	line-height: 35px;
 }
 .headerbutton, .headerbuttonleft {
-	display: inline-block;
 	margin-left: 5px;
 	height: 35px;
 	vertical-align: middle;
@@ -37,19 +124,17 @@ body {
 .headerbutton {
 	padding: 0 10px;
 	margin-left: 0;
-	border-right: 1px solid #222;
 }
 .headerbutton:last-child {
 	border-right: 0;
 }
 .headerseparator {
 	width: 50px;
-	display: inline-block;
 }
 a {
 	text-decoration: none;
 }
-a:hover {
+a:hover, a:hover span {
 	color: #fff;
 }
 #content {
@@ -61,16 +146,16 @@ a:hover {
 	display: inline-block;
 }
 .thumbnailbg {
-	background: url("/images/thumbnail_border.png") no-repeat;
+	background: url("/images/thumbnail_border.png") no-repeat 0/100%;
 	padding: 10px;
-	width: 320px;
+}
+.thumbnailbg img {
+	width: 100%;
 }
 .videoinfo {
-	width: 350px;
 	text-align: left;
 }
 .video {
-	width: 700px;
 	background-color: #444;
 	padding: 5px;
 	margin: 10px;
