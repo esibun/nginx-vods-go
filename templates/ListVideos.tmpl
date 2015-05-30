@@ -1,40 +1,52 @@
 {{define "base"}}
 <html>
 	<head>
-		<title>{{.name}}'s Past Recordings</title>
+		<title>esi's Past Recordings</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" type="text/css" href="/css/style.css">
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="/css/style-beta.css">
 	</head>
 	<body>
-		<span id="container">
-			<table id="containertable">
-				<tr>
-					<td id="borderleft"></td>
-					<td id="content">
-						<h1><img id="avatar" src="images/ava.png"> {{.name}}'s Past Recordings</h1>
-						<hr>
-						<p>live status: {{.livestatus}}</p>
-						{{ range $id, $video := .videos }}
-						<div class="video">
-							<div class="thumbnailbg">
-								<a href="/video/{{$video.Filename}}"><img src="thumbnails/{{$video.Filename}}.thumb.png"></a>
-							</div>
-							<div class="videoinfo">
-								<div class="videotitle">
-									<a href="/video/{{$video.Filename}}">{{$video.Name}}</a>
-								</div>
-								<div class="videoduration">{{formatDuration $video.Duration}}</div>
-								<div class="videodate">{{formatTime $video.Time}}</div>
-								<div class="videolink"><a href="/videos/{{$video.Filename}}.mp4">Direct Link</a></div>
-							</div>
-						</div>
-						{{ end }}
-					</td>
-					<td id="borderright"></td>
-				</tr>
-			</table>
-		</span>
+		<div id="header">
+			<div id="inner-header">
+				<div id="headerbar">
+					<div class="headerbuttonleft">
+						<img src="/images/ava-small.png">
+					</div>
+					<div class="headerbuttonleft">
+						<div class="headertext">esibun.net</div>
+					</div>
+					<div class="headerseparator">&nbsp;</div>
+					<div class="headerbutton">
+						<div class="headertext"><a href="http://esibun.net/"><span class="fa fa-home"></span> Home</a></div>
+					</div>
+					<div class="headerbutton">
+						<div class="headertext"><a href="http://rec.esibun.net/"><span class="fa fa-video-camera"></span> VoDs</a></div>
+					</div>
+					<div class="headerbutton">
+						<div class="headertext"><a href="http://files.esibun.net/"><span class="fa fa-file"></span> Files</a></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="content">
+			{{ range $id, $video := .videos }}
+			<div class="video">
+				<div class="thumbnailbg">
+					<a href="/video/{{$video.Filename}}"><img src="thumbnails/{{$video.Filename}}.thumb.png"></a>
+				</div>
+				<div class="videoinfo">
+					<div class="videotitle">
+						<a href="/video/{{$video.Filename}}">{{$video.Name}}</a>
+					</div>
+					<div class="videoduration"><span class="fa fa-clock-o"></span> {{formatDuration $video.Duration}}</div>
+					<div class="videodate"><span class="fa fa-calendar-o"></span> {{formatTime $video.Time}}</div>
+					<div class="videolink"><a href="/videos/{{$video.Filename}}.mp4"><span class="fa fa-link"></span> Direct Link</a></div>
+				</div>
+			</div>
+			{{end}}
+		</div>
 	</body>
 </html>
 {{end}}
