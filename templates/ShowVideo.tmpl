@@ -4,30 +4,43 @@
 		<title>{{.name}}'s Past Recordings</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" type="text/css" href="../css/style.css">
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/style-beta.css">
 		<link href="http://vjs.zencdn.net/4.7/video-js.css" rel="stylesheet">
 		<script src="http://vjs.zencdn.net/4.7/video.js"></script>
 	</head>
 	<body>
-		<span id="container">
-			<table id="containertable">
-				<tr>
-					<td id="borderleft"></td>
-					<td id="content">
-						<h1><img id="avatar" src="../images/ava.png"> {{.name}}'s Past Recordings</h1>
-						<hr>
-						<h2>{{.title}}</h2>
+		<div id="header">
+			<div id="inner-header">
+				<div id="headerbar">
+					<div class="headerbuttonleft">
+						<img src="/images/ava-small.png">
+					</div>
+					<div class="headerbuttonleft">
+						<div class="headertext">esibun.net</div>
+					</div>
+					<div class="headerseparator">&nbsp;</div>
+					<div class="headerbutton">
+						<div class="headertext"><a href="http://esibun.net/"><span class="fa fa-home"></span> Home</a></div>
+					</div>
+					<div class="headerbutton">
+						<div class="headertext"><a href="http://rec.esibun.net/"><span class="fa fa-video-camera"></span> VoDs</a></div>
+					</div>
+					<div class="headerbutton">
+						<div class="headertext"><a href="http://files.esibun.net/"><span class="fa fa-file"></span> Files</a></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="content">
+			<h2>{{.title}}</h2>
 
-						<video id="vod" class="video-js vjs-default-skin static-bar" controls autoplay preload="auto" poster="../thumbnails/{{.id}}.thumb.png" width="75vw" height="42.1875vw" data-setup='{"nativeControlsForTouch": false}'>
- 							<source src="../videos/{{.id}}.mp4" type='video/mp4'>
-							<p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
-						</video>
-						<p class="backbutton"><a href="/">&lt;-- Back</a></p>
-					</td>
-					<td id="borderright"></td>
-				</tr>
-			</table>
-		</span>
+			<video id="vod" class="video-js vjs-default-skin static-bar" controls autoplay preload="auto" poster="../thumbnails/{{.id}}.thumb.png" width="75vw" height="42.1875vw" data-setup='{"nativeControlsForTouch": false}'>
+					<source src="../videos/{{.id}}.mp4" type='video/mp4'>
+				<p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+			</video>
+			<p class="backbutton"><a href="/">&lt;-- Back</a></p>
+		</div>
 	</body>
 </html>
 {{end}}
